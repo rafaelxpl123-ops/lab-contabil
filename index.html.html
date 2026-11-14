@@ -1,0 +1,259 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Laboratório Contábil</title><style>
+:root{--bg:#f3f5f8;--sf:#fff;--tx:#1a2233;--mu:#5b6678;--pr:#1b2f5b;--pt:#fff;--bd:#d5dbe5;--ok:#17703a;--er:#b3261e;--zb:#eef2f8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10151f;--sf:#182030;--tx:#e6ebf3;--mu:#9aa6ba;--pr:#7fa3f0;--pt:#10151f;--bd:#2c3850;--ok:#5fd08a;--er:#ff8a80;--zb:#1d2638}}
+:root[data-theme="dark"]{--bg:#10151f;--sf:#182030;--tx:#e6ebf3;--mu:#9aa6ba;--pr:#7fa3f0;--pt:#10151f;--bd:#2c3850;--ok:#5fd08a;--er:#ff8a80;--zb:#1d2638}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{background:var(--pr);color:var(--pt);padding:14px 16px 0}h1{margin:0 0 2px;font-size:1.3rem}header p{margin:0 0 10px;font-size:.85rem;opacity:.9}
+nav{display:flex;gap:2px;overflow-x:auto}nav button{background:none;border:0;color:var(--pt);opacity:.75;padding:10px 14px;font:inherit;font-size:.95rem;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}nav button.on{opacity:1;border-color:var(--pt);font-weight:600}
+main{max-width:1000px;margin:0 auto;padding:16px}.c{background:var(--sf);border:1px solid var(--bd);border-radius:8px;padding:16px;margin-bottom:16px}h2{margin:0 0 12px;font-size:1.15rem}h3{margin:14px 0 6px;font-size:1rem}
+label{display:block;font-size:.85rem;color:var(--mu);margin-bottom:3px}input,select{font:inherit;width:100%;padding:8px;border:1px solid var(--bd);border-radius:6px;background:var(--sf);color:var(--tx)}
+.g{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}button.b{background:var(--pr);color:var(--pt);border:0;border-radius:6px;padding:9px 16px;font:inherit;font-weight:600;cursor:pointer}button.b:disabled{opacity:.4;cursor:not-allowed}button.s{background:none;color:var(--pr);border:1px solid var(--bd);border-radius:6px;padding:6px 10px;font:inherit;font-size:.85rem;cursor:pointer}
+.w{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.9rem}th,td{padding:6px 8px;border-bottom:1px solid var(--bd);text-align:left;vertical-align:top}th{color:var(--mu);font-weight:600;font-size:.8rem}tbody tr:nth-child(even){background:var(--zb)}.r{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.er{color:var(--er)}.ok{color:var(--ok)}.mu{color:var(--mu)}.bd{font-weight:700}.av{background:var(--zb);border-left:4px solid var(--pr);padding:8px 12px;border-radius:4px;font-size:.9rem;margin-bottom:16px}
+.ln{display:grid;grid-template-columns:1fr 100px 130px 36px;gap:8px;margin-bottom:8px}@media(max-width:640px){.ln{grid-template-columns:1fr 1fr}.ln :first-child{grid-column:1/3}}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.t2{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}.t2 div{padding:3px 8px;border-bottom:1px solid var(--bd)}
+@media print{nav,.av,button,select{display:none!important}header{background:none;color:#000}}</style><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script></head><body>
+<header><h1>Laboratório Contábil</h1><p>Escrituração de um mês, com dados fictícios</p><nav id="nv"></nav></header>
+<main><div class="av">Use somente dados fictícios. Nada é enviado para fora do seu navegador.</div><div id="app"></div></main>
+<script>
+const K="labcontabil.v1",$=i=>document.getElementById(i);
+let S={emp:{nome:"",cnpj:"",ini:"",fim:""},en:[],cu:[]},tab="empresa",fm=null,rz={c:"",t:false},bt={ap:false,all:false};
+try{const r=localStorage.getItem(K);if(r)S=Object.assign(S,JSON.parse(r))}catch(e){}
+const sv=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
+const P0=`1 ATIVO
+1.1 ATIVO CIRCULANTE
+1.1.1 CAIXA E EQUIVALENTES DE CAIXA
+1.1.1.01 CAIXA
+1.1.1.01.0001 Caixa Geral
+1.1.1.02 BANCOS CONTA MOVIMENTO
+1.1.1.02.0001 Bancos Conta Movimento
+1.1.1.03 APLICAÇÃO FINANCEIRA DE CURTÍSSIMO PRAZO
+1.1.1.03.0001 Aplicação Financeira
+1.1.2 CLIENTES
+1.1.2.01 DUPLICATAS A RECEBER
+1.1.2.01.0001 Clientes (Duplicatas a Receber)
+1.1.2.01.9999 (-) Perdas Estimadas para Devedores Duvidosos
+1.1.3 OUTROS CRÉDITOS
+1.1.3.04 ADIANTAMENTOS A TERCEIROS
+1.1.3.04.0001 Adiantamento a Fornecedores
+1.1.3.05 CRÉDITOS A FUNCIONÁRIOS
+1.1.3.05.0003 Adiantamento de Salários
+1.1.3.06 TRIBUTOS A COMPENSAR E RECUPERAR
+1.1.3.06.0001 CSLL a Recuperar
+1.1.3.06.0002 COFINS a Recuperar
+1.1.3.06.0003 ICMS a Recuperar
+1.1.3.06.0005 IPI a Recuperar
+1.1.3.06.0006 IRRF a Recuperar
+1.1.3.06.0007 PIS a Recuperar
+1.1.5 ESTOQUES
+1.1.5.01 ESTOQUE DE MERCADORIAS
+1.1.5.01.0001 Mercadorias para Revenda
+1.1.6 DESPESAS ANTECIPADAS
+1.1.6.01 DESPESAS ANTECIPADAS
+1.1.6.01.0004 Aluguéis Pagos Antecipadamente
+1.1.6.01.0006 Seguros a Apropriar
+1.2 ATIVO NÃO CIRCULANTE
+1.2.3 IMOBILIZADO
+1.2.3.01 BENS EM OPERAÇÃO
+1.2.3.01.0001 Veículos
+1.2.3.01.0003 Móveis e Utensílios
+1.2.3.01.0004 Máquinas, Equipamentos e Ferramentas
+1.2.3.01.0007 Computadores e Periféricos (Equipamentos de Informática)
+1.2.3.02 (-) DEPRECIAÇÃO ACUMULADA
+1.2.3.02.0001 (-) Depreciação de Móveis e Utensílios
+1.2.3.02.0003 (-) Depreciação de Máquinas e Equipamentos
+1.2.3.02.0004 (-) Depreciação de Computadores
+1.2.3.02.0005 (-) Depreciação de Veículos
+2 PASSIVO E PATRIMÔNIO LÍQUIDO
+2.1 PASSIVO CIRCULANTE
+2.1.1 FORNECEDORES
+2.1.1.01 FORNECEDORES
+2.1.1.01.0001 Fornecedores
+2.1.2 EMPRÉSTIMOS E FINANCIAMENTOS
+2.1.2.01 EMPRÉSTIMOS A PAGAR CP
+2.1.2.01.0001 Empréstimos a Pagar
+2.1.3 OBRIGAÇÕES TRIBUTÁRIAS
+2.1.3.01 OBRIGAÇÕES TRIBUTÁRIAS
+2.1.3.01.0001 COFINS a Recolher
+2.1.3.01.0002 CSLL a Recolher
+2.1.3.01.0004 ICMS a Recolher
+2.1.3.01.0005 IPI a Recolher
+2.1.3.01.0006 IRPJ a Recolher
+2.1.3.01.0007 IRRF a Recolher
+2.1.3.01.0008 ISS a Recolher
+2.1.3.01.0009 PIS a Recolher
+2.1.4 OBRIGAÇÕES SOCIAIS E TRABALHISTAS
+2.1.4.01 OBRIGAÇÕES SOCIAIS E TRABALHISTAS
+2.1.4.01.0001 Salários a Pagar
+2.1.4.01.0005 INSS a Recolher
+2.1.4.01.0006 FGTS a Recolher
+2.1.5 OUTRAS CONTAS A PAGAR
+2.1.5.01 OUTRAS CONTAS A PAGAR
+2.1.5.01.0001 Aluguéis a Pagar
+2.1.5.01.0003 Energia Elétrica a Pagar
+2.2 PASSIVO NÃO CIRCULANTE
+2.2.2 EMPRÉSTIMOS E FINANCIAMENTOS
+2.2.2.01 EMPRÉSTIMOS A PAGAR LP
+2.2.2.01.0002 Empréstimos a Pagar LP
+2.3 PATRIMÔNIO LÍQUIDO
+2.3.1 CAPITAL SOCIAL
+2.3.1.01 CAPITAL SOCIAL SUBSCRITO
+2.3.1.01.0001 Capital Social Integralizado
+2.3.1.01.0002 (-) Capital Social a Integralizar
+2.3.3 LUCROS E PREJUÍZOS ACUMULADOS
+2.3.3.01 LUCROS ACUMULADOS
+2.3.3.01.0001 Lucros Acumulados
+2.3.3.02 PREJUÍZOS ACUMULADOS
+2.3.3.02.0001 Prejuízos Acumulados
+4 CONTAS DE RESULTADO
+4.1 FATURAMENTO OPERACIONAL BRUTO
+4.1.1 FATURAMENTO OPERACIONAL BRUTO
+4.1.1.02 VENDAS DE MERCADORIAS
+4.1.1.02.0001 Venda de Mercadorias
+4.2 DEDUÇÕES DA RECEITA
+4.2.2 (-) DEDUÇÕES DA RECEITA BRUTA
+4.2.2.01 (-) IMPOSTOS E ABATIMENTOS
+4.2.2.01.0001 (-) Abatimentos sobre as Receitas
+4.2.2.01.0002 (-) Devolução de Vendas
+4.2.2.01.0003 (-) ICMS s/ Vendas
+4.2.2.01.0004 (-) PIS s/ Vendas
+4.2.2.01.0005 (-) COFINS s/ Vendas
+4.2.2.01.0006 (-) ISS s/ Vendas de Serviços
+4.3 CUSTOS
+4.3.1 CUSTO DA MERCADORIA VENDIDA
+4.3.1.01 CMV
+4.3.1.01.0001 Custo das Mercadorias Vendidas (CMV)
+4.4 DESPESAS OPERACIONAIS
+4.4.1 DESPESAS COM VENDAS
+4.4.1.01 DESPESAS COM VENDAS
+4.4.1.01.0001 Comissões sobre Vendas
+4.4.1.01.0002 Salários e Ordenados (Vendas)
+4.4.1.01.0018 Brindes
+4.4.2 DESPESAS ADMINISTRATIVAS
+4.4.2.01 DESPESAS ADMINISTRATIVAS
+4.4.2.01.0001 Aluguel de Imóveis
+4.4.2.01.0017 Energia Elétrica
+4.4.2.01.0029 Materiais de Escritório
+4.4.2.01.0036 Seguros
+4.4.2.01.0040 Telefone e Internet
+4.4.2.01.0043 Salários e Ordenados
+4.4.2.01.0044 FGTS
+4.4.2.01.0046 INSS
+4.4.2.01.0049 Depreciação
+4.4.3 OUTRAS RECEITAS E DESPESAS OPERACIONAIS
+4.4.3.04 GANHOS E PERDAS DE CAPITAL
+4.4.3.04.0001 Perdas no Ativo Imobilizado
+4.5 RESULTADO FINANCEIRO
+4.5.1 DESPESAS FINANCEIRAS
+4.5.1.01 DESPESAS FINANCEIRAS
+4.5.1.01.0002 Despesas Bancárias
+4.5.1.01.0003 Encargos sobre Empréstimos
+4.5.1.01.0005 Juros Passivos
+4.5.2 RECEITAS FINANCEIRAS
+4.5.2.01 RECEITAS FINANCEIRAS
+4.5.2.01.0001 Juros Recebidos
+4.5.2.01.0003 Rendimentos s/ Aplicação Financeira
+4.5.2.01.0004 Descontos Obtidos
+4.6 TRIBUTOS SOBRE O LUCRO
+4.6.1 TRIBUTOS SOBRE O LUCRO
+4.6.1.01 IMPOSTO DE RENDA PESSOA JURÍDICA
+4.6.1.01.0001 IRPJ
+4.6.1.02 CONTRIBUIÇÃO SOCIAL SOBRE O LUCRO
+4.6.1.02.0001 CSLL
+5 RESULTADO
+5.1 APURAÇÃO
+5.1.1 DEMONSTRAÇÃO DO RESULTADO
+5.1.1.01 APURAÇÃO DO RESULTADO DO EXERCÍCIO
+5.1.1.01.0001 Apuração do Resultado do Exercício (ARE)`.split("\n").map(l=>{const i=l.indexOf(" ");return{c:l.slice(0,i),n:l.slice(i+1)}});
+const AC=()=>P0.concat(S.cu).sort((a,b)=>a.c<b.c?-1:1),AN=()=>AC().filter(a=>a.c.split(".").length==5),nm=c=>(AC().find(a=>a.c==c)||{n:c}).n;
+const E=s=>String(s).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[m]);
+const fm_=v=>"R$ "+(Math.abs(v)/100).toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});
+const pm=s=>{const n=Math.round(parseFloat(String(s).trim().replace(/[R$\s.]/g,"").replace(",","."))*100);return isFinite(n)?n:0};
+const dt=i=>i?i.split("-").reverse().join("/"):"",sd=v=>v==0?"R$ 0,00":fm_(v)+(v>0?" D":" C"),lb=a=>a.c+" "+a.n;
+const srt=()=>S.en.slice().sort((a,b)=>a.d<b.d?-1:a.d>b.d?1:a.n-b.n);
+const novo=d=>({id:null,n:Math.max(0,...S.en.map(e=>e.n))+1,d:d||"",t:"Normal",h:"",l:[{c:"",k:"D",v:""},{c:"",k:"C",v:""}]});
+fm=novo();
+function rc(t){t=t.trim();const k=t.split(" ")[0],a=AN();return a.find(x=>x.c==k)||a.find(x=>x.n.toLowerCase()==t.toLowerCase())}
+function val(){let D=0,C=0;const er=[],wr=[];if(!fm.d)er.push("informe a data");if(!fm.h.trim())er.push("escreva o histórico");
+if(fm.l.length<2)er.push("use ao menos duas partidas");
+fm.l.forEach((l,i)=>{const v=pm(l.v);if(!rc(l.c))er.push("partida "+(i+1)+": escolha uma conta analítica da lista");if(v<=0)er.push("partida "+(i+1)+": valor deve ser maior que zero");l.k=="D"?D+=v:C+=v});
+const cs=fm.l.map(l=>rc(l.c)).filter(Boolean).map(a=>a.c);if(new Set(cs).size<cs.length)er.push("a mesma conta não pode aparecer duas vezes no mesmo lançamento");if(D!=C)er.push("débitos e créditos diferentes");const e=S.emp;if(fm.d&&e.ini&&e.fim&&(fm.d<e.ini||fm.d>e.fim))wr.push("A data está fora do período da empresa.");return{D,C,er,wr}}
+function tot(){const v=val(),d=v.D-v.C;$("tot").innerHTML="Débitos <b>"+fm_(v.D)+"</b> &nbsp; Créditos <b>"+fm_(v.C)+"</b> &nbsp; "+(d==0&&v.D>0?'<b class="ok">Confere</b>':'<b class="er">Diferença '+fm_(d)+"</b>");
+$("er").innerHTML=v.er.length?"Pendências: "+v.er.join("; ")+".":"";$("wr").textContent=v.wr.join(" ");$("sb").disabled=v.er.length>0}
+function ln(i,f,x){fm.l[i][f]=x;tot()}
+function sf(f,x){fm[f]=x;tot()}
+function al(){fm.l.push({c:"",k:"D",v:""});R()}
+function rl(i){if(fm.l.length>2){fm.l.splice(i,1);R()}}
+function sal(){const v=val();if(v.er.length)return;const e={n:fm.n,d:fm.d,t:fm.t,h:fm.h.trim(),l:fm.l.map(l=>({c:rc(l.c).c,k:l.k,v:pm(l.v)}))};
+const i=S.en.findIndex(x=>x.n==e.n);i>=0?S.en[i]=e:S.en.push(e);sv();fm=novo();R()}
+function ed(n){const e=S.en.find(x=>x.n==n);fm={id:n,n:e.n,d:e.d,t:e.t,h:e.h,l:e.l.map(l=>({c:lb({c:l.c,n:nm(l.c)}),k:l.k,v:(l.v/100).toFixed(2).replace(".",",")}))};scrollTo(0,0);R()}
+function dl(n){if(confirm("Excluir o lançamento "+n+"?")){S.en=S.en.filter(x=>x.n!=n);sv();fm=novo();R()}}
+function vE(){const e=S.emp,f=(k,t,ty)=>`<div><label>${t}</label><input type="${ty||"text"}" value="${E(e[k])}" oninput="S.emp.${k}=this.value;sv()"></div>`;
+return`<div class="c"><h2>Dados da empresa</h2><div class="g">${f("nome","Nome da empresa")}${f("cnpj","CNPJ (fictício, opcional)")}${f("ini","Início do período","date")}${f("fim","Fim do período","date")}</div></div>
+<div class="c"><h2>Recomeçar</h2><p class="mu">Apaga a empresa e todos os lançamentos deste navegador.</p><button class="b" onclick="if(confirm('Apagar todos os dados e recomeçar?')){S={emp:{nome:'',cnpj:'',ini:'',fim:''},en:[],cu:[]};sv();fm=novo();R()}">Apagar todos os dados e recomeçar</button></div>`}
+function vP(){const ac=AC(),pais=ac.filter(a=>a.c.split(".").length==4);
+const li=ac.map(a=>{const p=a.c.split("."),an=p.length==5,cu=S.cu.some(x=>x.c==a.c),us=S.en.some(e=>e.l.some(l=>l.c==a.c));
+return`<tr><td style="padding-left:${8+(p.length-1)*14}px" class="${an?"":"bd"}">${a.c}</td><td class="${an?"":"bd"}">${E(a.n)}</td><td>${an?"Analítica":"Sintética"}</td><td>${cu&&!us?`<button class="s" onclick="dc('${a.c}')">Excluir</button>`:""}</td></tr>`}).join("");
+return`<div class="c"><h2>Adicionar conta analítica</h2><div class="g"><div><label>Grupo (conta sintética)</label><select id="pp">${pais.map(a=>`<option value="${a.c}">${a.c} ${E(a.n)}</option>`).join("")}</select></div><div><label>Nome da nova conta</label><input id="pn"></div></div><p><button class="b" onclick="ac_()">Adicionar conta</button></p></div>
+<div class="c"><h2>Plano de contas</h2><div class="w"><table><thead><tr><th>Código</th><th>Conta</th><th>Tipo</th><th></th></tr></thead><tbody>${li}</tbody></table></div></div>`}
+function ac_(){const p=$("pp").value,n=$("pn").value.trim();if(!n)return alert("Digite o nome da conta.");
+const m=Math.max(0,...AC().filter(a=>a.c.startsWith(p+".")).map(a=>+a.c.split(".")[4]).filter(x=>x<9000));S.cu.push({c:p+"."+String(m+1).padStart(4,"0"),n});sv();R()}
+function dc(c){S.cu=S.cu.filter(a=>a.c!=c);sv();R()}
+function vD(){const f=fm;
+const ls=f.l.map((l,i)=>`<div class="ln"><input list="al" value="${E(l.c)}" placeholder="Código ou nome da conta" oninput="ln(${i},'c',this.value)"><select onchange="ln(${i},'k',this.value)"><option value="D"${l.k=="D"?" selected":""}>Débito</option><option value="C"${l.k=="C"?" selected":""}>Crédito</option></select><input inputmode="decimal" value="${E(l.v)}" placeholder="0,00" oninput="ln(${i},'v',this.value)"><button class="s" onclick="rl(${i})" title="Remover partida">×</button></div>`).join("");
+const li=srt().map(e=>`<tr><td class="r">${e.n}</td><td>${dt(e.d)}</td><td>${e.t}</td><td>${E(e.h)}<div class="mu">${e.l.map(l=>(l.k=="D"?"D ":"C ")+E(nm(l.c))+" "+fm_(l.v)).join("<br>")}</div></td><td><button class="s" onclick="ed(${e.n})">Editar</button> <button class="s" onclick="dl(${e.n})">Excluir</button></td></tr>`).join("");
+return`<div class="c"><h2>${f.id?"Editando o lançamento ":"Novo lançamento nº "}${f.n}</h2><datalist id="al">${AN().map(a=>`<option value="${E(lb(a))}">`).join("")}</datalist>
+<div class="g"><div><label>Data</label><input type="date" value="${f.d}" oninput="sf('d',this.value)"></div><div><label>Tipo</label><select onchange="sf('t',this.value)">${["Abertura","Normal","Encerramento"].map(t=>`<option${f.t==t?" selected":""}>${t}</option>`).join("")}</select></div></div>
+<h3>Histórico</h3><input value="${E(f.h)}" placeholder="Descreva o fato contábil" oninput="sf('h',this.value)"><h3>Partidas</h3>${ls}<div class="row"><button class="s" onclick="al()">Adicionar partida</button></div>
+<p id="tot"></p><p class="er" id="wr"></p><p class="mu" id="er"></p><div class="row"><button class="b" id="sb" onclick="sal()">Salvar lançamento</button><button class="s" onclick="fm=novo();R()">Limpar</button></div></div>
+<div class="c"><h2>Livro Diário</h2>${li?`<div class="w"><table><thead><tr><th>Nº</th><th>Data</th><th>Tipo</th><th>Histórico e partidas</th><th></th></tr></thead><tbody>${li}</tbody></table></div>`:'<p class="mu">Nenhum lançamento ainda. Comece pelo lançamento de abertura, com tipo “Abertura”.</p>'}</div>`}
+function mv(c){const r=[];srt().forEach(e=>e.l.forEach(l=>{if(l.c==c)r.push({e,l})}));return r}
+function bk(c){const r=mv(c);let s=0,D=0,C=0;const rows=r.map(x=>{const v=x.l.v;x.l.k=="D"?(s+=v,D+=v):(s-=v,C+=v);return{x,s}});return{rows,s,D,C}}
+function vR(){const ct=AN().filter(a=>mv(a.c).length),sel=rz.c?ct.filter(a=>a.c==rz.c):ct;
+const opt=`<option value="">Todas as contas com movimento</option>`+ct.map(a=>`<option value="${a.c}"${a.c==rz.c?" selected":""}>${E(lb(a))}</option>`).join("");
+const bl=sel.map(a=>{const b=bk(a.c);if(rz.t)return`<h3>${E(lb(a))}</h3><div class="t2"><div class="bd">Débito</div><div class="bd">Crédito</div>${b.rows.map(r=>r.x.l.k=="D"?`<div>${dt(r.x.e.d)} (${r.x.e.n}) ${fm_(r.x.l.v)}</div><div></div>`:`<div></div><div>${dt(r.x.e.d)} (${r.x.e.n}) ${fm_(r.x.l.v)}</div>`).join("")}<div class="bd">Total ${fm_(b.D)}</div><div class="bd">Total ${fm_(b.C)}</div></div><p class="bd">Saldo: ${sd(b.s)}</p>`;
+return`<h3>${E(lb(a))}</h3><div class="w"><table><thead><tr><th>Data</th><th>Nº</th><th>Histórico</th><th class="r">Débito</th><th class="r">Crédito</th><th class="r">Saldo</th></tr></thead><tbody>${b.rows.map(r=>`<tr><td>${dt(r.x.e.d)}</td><td>${r.x.e.n}</td><td>${E(r.x.e.h)}</td><td class="r">${r.x.l.k=="D"?fm_(r.x.l.v):""}</td><td class="r">${r.x.l.k=="C"?fm_(r.x.l.v):""}</td><td class="r">${sd(r.s)}</td></tr>`).join("")}</tbody></table></div>`}).join("");
+return`<div class="c"><h2>Livro Razão</h2><div class="g"><div><label>Conta</label><select onchange="rz.c=this.value;R()">${opt}</select></div><div><label>Visualização</label><select onchange="rz.t=this.value=='t';R()"><option value="l">Lista com saldo corrente</option><option value="t"${rz.t?" selected":""}>Razão em T</option></select></div></div>${bl||'<p class="mu">Nenhuma conta com movimento.</p>'}</div>`}
+function vB(){const m={};S.en.forEach(e=>e.l.forEach(l=>{const a=m[l.c]||(m[l.c]={a:0,d:0,c:0}),s=l.k=="D"?l.v:-l.v;if(e.t=="Abertura")a.a+=s;else if(e.t=="Encerramento"&&!bt.ap)return;else l.k=="D"?a.d+=l.v:a.c+=l.v}));
+let T={a:0,d:0,c:0,fd:0,fc:0},A=0,B=0;const rows=AN().map(a=>{const x=m[a.c]||{a:0,d:0,c:0},f=x.a+x.d-x.c;if(!bt.all&&!x.a&&!x.d&&!x.c&&!f)return"";T.d+=x.d;T.c+=x.c;f>0?T.fd+=f:T.fc-=f;x.a>0?A+=x.a:B-=x.a;
+return`<tr><td>${a.c}</td><td>${E(a.n)}</td><td class="r">${sd(x.a)}</td><td class="r">${fm_(x.d)}</td><td class="r">${fm_(x.c)}</td><td class="r">${sd(f)}</td></tr>`}).join("");
+const ck=(a,b)=>a==b?'<b class="ok">Confere</b>':'<b class="er">Diferença '+fm_(a-b)+"</b>";
+return`<div class="c"><h2>Balancete de verificação</h2><div class="row"><select style="width:auto" onchange="bt.ap=this.value=='1';R()"><option value="0">Antes do encerramento</option><option value="1"${bt.ap?" selected":""}>Após o encerramento</option></select><label style="display:flex;gap:6px;margin:0"><input type="checkbox" style="width:auto"${bt.all?" checked":""} onchange="bt.all=this.checked;R()">Mostrar todas as contas</label></div>
+<div class="w"><table><thead><tr><th>Código</th><th>Conta</th><th class="r">Saldo anterior</th><th class="r">Débitos</th><th class="r">Créditos</th><th class="r">Saldo final</th></tr></thead><tbody>${rows}</tbody><tfoot><tr class="bd"><td></td><td>Totais</td><td></td><td class="r">${fm_(T.d)}</td><td class="r">${fm_(T.c)}</td><td class="r">D ${fm_(T.fd)} / C ${fm_(T.fc)}</td></tr></tfoot></table></div>
+<p>Débitos = Créditos: ${ck(T.d,T.c)}<br>Saldos devedores = credores: ${ck(T.fd,T.fc)}<br>Saldo anterior (abertura) devedor = credor: ${ck(A,B)}</p></div>`}
+let dm=false;
+const fs=v=>v<0?'<span class="er">('+fm_(v)+')</span>':fm_(v),st=p=>c=>c.startsWith(p),sm=l=>l.reduce((s,x)=>s+x.v,0);
+const OP45=["4.5.1.01.0002","4.5.2.01.0001","4.5.2.01.0004"],c45=c=>c.startsWith("4.5")&&(OP45.includes(c)?"o":c.startsWith("4.5.2")?"i":"f");
+function rs(){const m={};S.en.forEach(e=>{if(e.t!="Encerramento")e.l.forEach(l=>{if(l.c[0]=="4")m[l.c]=(m[l.c]||0)+(l.k=="D"?l.v:-l.v)})});return m}
+const gp=(m,f)=>AN().filter(a=>m[a.c]&&f(a.c)).map(a=>({a,v:-m[a.c]}));
+const gr=(t,l)=>l.length?`<tr class="bd"><td>${t}</td><td class="r">${fs(sm(l))}</td></tr>`+l.map(x=>`<tr><td style="padding-left:24px">${x.a.c} ${E(x.a.n)}</td><td class="r">${fs(x.v)}</td></tr>`).join(""):"";
+const sr=(t,v)=>`<tr class="bd"><td>${t}</td><td class="r">${fs(v)}</td></tr>`;
+function quadro(R2,m){const t=S.tx||(S.tx={ad:"",ex:"",lim:"20.000,00"}),ad=pm(t.ad),ex=pm(t.ex),lim=pm(t.lim),LR=R2+ad-ex,b=Math.max(0,LR),ir=Math.round(b*.15),ac=Math.round(Math.max(0,b-lim)*.1),cs=Math.round(b*.09),tt=ir+ac+cs,la=(m["4.6.1.01.0001"]||0)+(m["4.6.1.02.0001"]||0),df=tt-la;
+const inp=k=>`<input style="width:140px;text-align:right" value="${E(t[k])}" placeholder="0,00" onchange="S.tx.${k}=this.value;sv();R()">`,r=(a,b,c)=>`<tr class="${c?"bd":""}"><td>${a}</td><td class="r">${b}</td></tr>`;
+return`<div class="c"><h2>Cálculo do IRPJ e da CSLL (conferência)</h2><p class="mu">Este quadro não cria lançamentos nem altera a DRE: compare o valor calculado com o que você lançou.</p><div class="w"><table data-t="Cálculo do IRPJ e da CSLL (conferência)"><tbody>${r("Resultado antes do IRPJ e da CSLL",fs(R2))}${r("(+) Adições ao Lucro Real",inp("ad"))}${r("(-) Exclusões do Lucro Real",inp("ex"))}${r("= Lucro Real (base de cálculo)",fs(LR),1)}${r("IRPJ: 15% sobre o Lucro Real",fm_(ir))}${r("Adicional de IRPJ: 10% sobre o que exceder o limite mensal de "+inp("lim"),fm_(ac))}${r("= IRPJ total",fm_(ir+ac),1)}${r("CSLL: 9% sobre o Lucro Real",fm_(cs))}${r("= Total dos tributos sobre o lucro",fm_(tt),1)}${r("Lançado nas contas IRPJ e CSLL",fm_(la))}${r("Diferença entre o calculado e o lançado",df==0?'<b class="ok">Confere</b>':'<b class="er">'+fm_(df)+"</b>",1)}</tbody></table></div></div>`}
+function vDRE(){const m=rs(),g=f=>gp(m,f),s=sm,RB=g(st("4.1")),DD=g(st("4.2")),CM=g(st("4.3")),VD=g(st("4.4.1")),AD=g(st("4.4.2")),OT=g(st("4.4.3")),IR=g(st("4.6.1.01")),CS=g(st("4.6.1.02")),RL=s(RB)+s(DD),LB=RL+s(CM);let h,R2;
+if(!dm){const RF=g(st("4.5.2")),DF=g(st("4.5.1")),R1=LB+s(VD)+s(AD)+s(OT);R2=R1+s(RF)+s(DF);
+h=gr("Receita Bruta de Vendas",RB)+gr("(-) Deduções da Receita",DD)+sr("= Receita Líquida",RL)+gr("(-) Custo das Mercadorias Vendidas",CM)+sr("= Lucro Bruto",LB)+gr("(-) Despesas com Vendas",VD)+gr("(-) Despesas Administrativas",AD)+gr("(+/-) Outras Receitas e Despesas Operacionais",OT)+sr("= Resultado antes do Resultado Financeiro",R1)+gr("(+) Receitas Financeiras",RF)+gr("(-) Despesas Financeiras",DF)+sr("= Resultado antes dos Tributos sobre o Lucro",R2)+gr("(-) IRPJ",IR)+gr("(-) CSLL",CS)+sr("= Lucro (ou Prejuízo) Líquido do Período",R2+s(IR)+s(CS))}
+else{const OO=OT.concat(g(c=>c45(c)=="o")),LO=LB+s(VD)+s(AD)+s(OO),IV=g(c=>c45(c)=="i"),LI=LO+s(IV),FN=g(c=>c45(c)=="f");R2=LI+s(FN);
+h="<tr><td colspan=2><b>Categoria operacional</b></td></tr>"+gr("Receita Bruta de Vendas",RB)+gr("(-) Deduções da Receita",DD)+sr("= Receita Líquida",RL)+gr("(-) Custo das Mercadorias Vendidas",CM)+sr("= Lucro Bruto",LB)+gr("(-) Despesas com Vendas",VD)+gr("(-) Despesas Administrativas",AD)+gr("(+/-) Outras Receitas e Despesas Operacionais",OO)+sr("= Lucro ou Prejuízo Operacional",LO)+"<tr><td colspan=2><b>Categoria de investimento</b></td></tr>"+gr("(+) Receitas de investimento",IV)+sr("= Lucro ou Prejuízo antes do Financiamento e dos Tributos sobre o Lucro",LI)+"<tr><td colspan=2><b>Categoria de financiamento</b></td></tr>"+gr("(-) Despesas de financiamento",FN)+sr("= Lucro ou Prejuízo antes dos Tributos sobre o Lucro",R2)+"<tr><td colspan=2><b>Tributos sobre o lucro</b></td></tr>"+gr("(-) IRPJ",IR)+gr("(-) CSLL",CS)+sr("= Resultado Líquido do Período (operações continuadas)",R2+s(IR)+s(CS))}
+return`<div class="c"><h2>Demonstração do Resultado do Período</h2><div class="row"><select style="width:auto" onchange="dm=this.value=='1';R()"><option value="0">Modelo antigo (CPC 26)</option><option value="1"${dm?" selected":""}>Modelo novo (CPC 51)</option></select></div><div class="w"><table><thead><tr><th>Descrição</th><th class="r">R$</th></tr></thead><tbody>${h}</tbody></table></div></div>${quadro(R2,m)}`}
+function vBP(){const s={};S.en.forEach(e=>e.l.forEach(l=>s[l.c]=(s[l.c]||0)+(l.k=="D"?l.v:-l.v)));
+const sec=(t,p,k)=>{const l=AN().filter(a=>a.c.startsWith(p)&&s[a.c]).map(a=>[a.n,k*s[a.c]]);return[[t,l.reduce((x,y)=>x+y[1],0),1]].concat(l)},tl=x=>x.filter(y=>y[2]).reduce((a,y)=>a+y[1],0);
+const A=sec("Ativo Circulante","1.1",1).concat(sec("Ativo Não Circulante","1.2",1)),P=sec("Passivo Circulante","2.1",-1).concat(sec("Passivo Não Circulante","2.2",-1),sec("Patrimônio Líquido","2.3",-1)),tA=tl(A),tP=tl(P),N=Math.max(A.length,P.length);
+const ce=x=>x?`<td class="${x[2]?"bd":""}">${E(x[0])}</td><td class="r ${x[2]?"bd":""}">${fs(x[1])}</td>`:"<td></td><td></td>";let rw="";for(let i=0;i<N;i++)rw+="<tr>"+ce(A[i])+ce(P[i])+"</tr>";
+const av=Object.keys(s).some(c=>"45".includes(c[0])&&s[c]);
+return`<div class="c"><h2>Balanço Patrimonial</h2>${av?'<div class="av">As contas de resultado ainda não foram encerradas; o Patrimônio Líquido não inclui o resultado do período.</div>':""}<div class="w"><table><thead><tr><th>Ativo</th><th class="r">R$</th><th>Passivo e Patrimônio Líquido</th><th class="r">R$</th></tr></thead><tbody>${rw}</tbody><tfoot><tr class="bd"><td>TOTAL DO ATIVO</td><td class="r">${fm_(tA)}</td><td>TOTAL DO PASSIVO + PL</td><td class="r">${fm_(tP)}</td></tr></tfoot></table></div><p>Ativo = Passivo + PL: ${tA==tP?'<b class="ok">Confere</b>':'<b class="er">Diferença '+fm_(tA-tP)+"</b>"}</p></div>`}
+async function pdf(){const J=window.jspdf,dw=window.claude?await window.claude.use("downloads"):null;
+if(!J)return window.print();
+const doc=new J.jsPDF({unit:"pt",format:"a4"}),e=S.emp,tt=TB[tab][0]+(tab=="dre"?(dm?" - CPC 51":" - CPC 26"):""),W=doc.internal.pageSize.getWidth(),H=doc.internal.pageSize.getHeight(),per=e.ini&&e.fim?"Período: "+dt(e.ini)+" a "+dt(e.fim):"";
+const hd=()=>{doc.setFont(undefined,"bold").setFontSize(11).text(e.nome||"Empresa não informada",40,30);doc.setFont(undefined,"normal").setFontSize(8).text("CNPJ: "+(e.cnpj||"-")+"   "+per,40,43).text(tt,40,56).text("Emitido em "+new Date().toLocaleString("pt-BR"),W-40,30,{align:"right"}).text("Página "+doc.internal.getNumberOfPages()+" de {t}",W-40,H-20,{align:"right"})};
+const o={margin:{top:70,bottom:34,left:40,right:40},styles:{fontSize:8},headStyles:{fillColor:[27,47,91]},didDrawPage:hd,didParseCell:d=>{if(/R\$/.test(d.cell.text.join("")))d.cell.styles.halign="right"}};let y=70;
+if(tab=="razao"){const body=[];AN().filter(a=>mv(a.c).length).forEach(a=>{const b=bk(a.c);body.push([{content:lb(a),colSpan:6,styles:{fontStyle:"bold",fillColor:[225,231,242]}}]);b.rows.forEach(r=>body.push([dt(r.x.e.d),r.x.e.n,r.x.e.h,r.x.l.k=="D"?fm_(r.x.l.v):"",r.x.l.k=="C"?fm_(r.x.l.v):"",sd(r.s)]));body.push([{content:"Saldo final",colSpan:5,styles:{fontStyle:"bold"}},sd(b.s)])});doc.autoTable({...o,startY:y,head:[["Data","Nº","Histórico","Débito","Crédito","Saldo"]],body})}
+else{const bx=document.createElement("div");bx.innerHTML=$("app").innerHTML;bx.querySelectorAll("input").forEach(i=>i.replaceWith(i.value));bx.querySelectorAll("button,select,datalist").forEach(x=>x.remove());bx.querySelectorAll("br").forEach(b=>b.replaceWith("\n"));
+bx.querySelectorAll("table").forEach(t=>{if(t.dataset.t){doc.setFontSize(9).setFont(undefined,"bold").text(t.dataset.t,40,y+10);y+=16}doc.autoTable({...o,html:t,startY:y});y=doc.lastAutoTable.finalY+16})}
+doc.putTotalPages("{t}");try{const fn=tt.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^\w]+/g,"_")+".pdf";if(dw)await dw.save({filename:fn,data:doc.output("arraybuffer")});else doc.save(fn)}catch(x){if(x.code!="declined")alert("Não foi possível salvar o PDF.")}}
+const TB={empresa:["Empresa",vE],plano:["Plano de contas",vP],diario:["Diário",vD],razao:["Razão",vR],balancete:["Balancete",vB],dre:["DRE",vDRE],balanco:["Balanço Patrimonial",vBP]};
+function R(){$("nv").innerHTML=Object.keys(TB).map(k=>`<button class="${k==tab?"on":""}" onclick="tab='${k}';R()">${TB[k][0]}</button>`).join("");$("app").innerHTML=TB[tab][1]()+(tab=="plano"||tab=="empresa"?"":'<p><button class="b" onclick="pdf()">Gerar PDF</button></p>');if(tab=="diario")tot()}
+R();
+</script></body></html>
